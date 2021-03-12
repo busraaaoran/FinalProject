@@ -33,8 +33,8 @@ namespace WebAPI
             //burada dediðimiz þey þu sen ýproductservice baðýmlýlýðý gördüðün her yerde ona karþýlýk productmanager olduðunu anla.
             //yani arkaplanda bizim için newleme yapan kýsým bu
             //singleton datasýzlar için geçerli bir kullaným
-            services.AddSingleton<IProductService, ProductManager>();
-            services.AddSingleton<IProductDal, EfProductDal>();
+            //services.AddSingleton<IProductService, ProductManager>();
+            //services.AddSingleton<IProductDal, EfProductDal>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
