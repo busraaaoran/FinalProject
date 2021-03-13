@@ -1,10 +1,13 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using Entities.DTOs;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,10 +25,9 @@ namespace Business.Concrete
 
         public IResult Add(Product product)
         {
-            if (product.ProductName.Length < 2)
-            {
-                return new ErrorResult(Messages.ProductNameInvalid);
-            }
+
+            ValidationTool.Validate(new ProductValidator(), product);
+
             _ProductDal.Add(product); //returnu buraya yazamayız, çünkü IProductDalda Add void!
             //artık bir şey dönmemiz gerekmekte, bu yüzden result dönüyoruz.
             return new SuccessResult(Messages.ProductAdded);//2 parametre yolluyoruz, constructor yapmalıyız bu noktada.
