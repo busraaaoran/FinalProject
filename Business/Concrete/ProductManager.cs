@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -23,10 +24,9 @@ namespace Business.Concrete
             _ProductDal = productDal;
         }
 
+        [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
-
-            ValidationTool.Validate(new ProductValidator(), product);
 
             _ProductDal.Add(product); //returnu buraya yazamayız, çünkü IProductDalda Add void!
             //artık bir şey dönmemiz gerekmekte, bu yüzden result dönüyoruz.
