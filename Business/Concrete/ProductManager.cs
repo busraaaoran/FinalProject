@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.CCS;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
@@ -18,19 +19,24 @@ namespace Business.Concrete
     public class ProductManager : IProductService
     {
         IProductDal _ProductDal; //injection
+        
 
         public ProductManager(IProductDal productDal)
         {
             _ProductDal = productDal;
+            
         }
 
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
-
-            _ProductDal.Add(product); //returnu buraya yazamayız, çünkü IProductDalda Add void!
+            //returnu buraya yazamayız, çünkü IProductDalda Add void!
             //artık bir şey dönmemiz gerekmekte, bu yüzden result dönüyoruz.
-            return new SuccessResult(Messages.ProductAdded);//2 parametre yolluyoruz, constructor yapmalıyız bu noktada.
+            //2 parametre yolluyoruz, constructor yapmalıyız bu noktada.
+
+            _ProductDal.Add(product);
+            return new SuccessResult(Messages.ProductAdded);
+
         }
 
         public IDataResult<List<Product>> GetAll()
@@ -41,7 +47,7 @@ namespace Business.Concrete
             //}
 
             //iş kodları
-            return new SuccessDataResult<List<Product>>(_ProductDal.GetAll(),Messages.ProductsListed);
+            return new SuccessDataResult<List<Product>>(_ProductDal.GetAll(), Messages.ProductsListed);
         }
 
         public IDataResult<List<Product>> GetAllByCategoryId(int id)
